@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Create New Admin</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		.box {
+			padding-top: 50px;
+		}
+		
+		.add-sapce {
+			padding-bottom: 15px !important;
+		}
+	</style>
+</head>
+<body>
+<header class="main-header">
+	<div th:replace="/fragments/header"></div>
+</header>
+
+<div class="container-fluid">
+	<div class="col-md-12" >
+		<div class="box">
+			<div class="box-header" style="text-align: center;">
+				<h3 class="box-title">Create New Post</h3>
+			</div>
+			<div class="alert-success" th:if="${msg}">
+				<label th:text="${msg}" style="text-align:center"></label></i></span>
+			</div>
+			<form data-toggle="validator" th:action="@{/blogger/createpost}" th:object="${blogpost}" method="post" id="admin_form">
+				<div class="box-body" style="background-color:aliceblue;height:auto;">
+					
+					<div class="row col-md-12 text-center add-sapce" style="padding-top: 10px;">
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="text-align: right;" for="full_name">Title</label>
+							<div class="col-sm-7">
+								<textarea id="title" th:field="*{title}" type="text" rows="4" class="form-control" style="width:100% important!" required></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row col-md-12 text-center add-sapce">
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="text-align: right;" for="email">Body</label>
+							<div class="col-sm-7">
+								<textarea id="body" th:field="*{body}" type="email" rows="15" class="form-control" style="width:100% important!" required></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="footer text-center" style="color:lightgray">
+						<button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
+					</div>
+				</div>	
+				
+			</form>
+					
+		</div>	
+
+			
+	</div>
+
+</div> 
+
+</body>
+
+</html>

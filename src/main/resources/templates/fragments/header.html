@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<style>
+		a.sidebar-toggle::before{
+			content:none !important;
+		}
+        .navbar-inverse {
+            background-color: rgb(167, 160, 160);
+            border-color: rgb(167, 160, 160);
+        }
+        .navbar-inverse .navbar-brand {
+            color: #181717;
+        }
+	</style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header" th:if="${session.user_type.equals('Admin')==true}">
+                <ul class="nav navbar-nav">
+                    <li><a class="navbar-brand" th:href="@{/home}"><font size='4' color="#181717">Home</font></a></li>
+                    <li><a class="navbar-brand" th:href="@{/admin/addadmin}"><font size='4' color="#181717">Add Admin</font></a></li>
+                    <li><a class="navbar-brand" th:href="@{/admin/pendingreq}"><font size='4' color="#181717">Pending Request</font></a></li>
+                    <li><a class="navbar-brand" th:href="@{/admin/listblogger}"><font size='4' color="#181717">List Blogger</font></a></li>
+                    <li><a class="navbar-brand" th:href="@{/admin/pengingpost}"><font size='4' color="#181717">Pending Blog Post</font></a></li>
+                    <li><a class="navbar-brand" href="#"><font size='4' color="#181717">List Blog Post</font></a></li>
+                </ul>
+            </div>
+            <div class="navbar-header" th:if="${session.user_type.equals('Blogger')==true}">
+                <ul class="nav navbar-nav">
+                    <li><a class="navbar-brand" th:href="@{/home}"><font size='4' color="#181717">Home</font></a></li>
+                    <li><a class="navbar-brand" th:href="@{/blogger/createpost}"><font size='4' color="#181717">Create Post</font></a></li>
+                    <li><a class="navbar-brand" href="#"><font size='4' color="#181717">My Blog Post</font></a></li>
+                    <li><a class="navbar-brand" href="#"><font size='4' color="#181717">List Blog Post</font></a></li>
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <a class="navbar-brand" th:href="@{/logout}">Logout</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Create New Admin</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		.box {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+<body>
+<header class="main-header">
+	<div th:replace="/fragments/header"></div>
+</header>
+
+<div class="container-fluid">
+	<div class="col-md-12" >
+		<div class="box">
+			<div class="box-header" style="text-align: center;">
+				<h3 class="box-title">List Blogger</h3>
+			</div>
+            
+			<div class="alert-warning" th:if="${msg}">
+				<label th:text="${msg}" style="text-align:center"></label>
+			</div>
+
+            <form id="form1" th:action="@{/admin/listblogger}" method="POST">
+                <div class="row col-md-3">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" style="text-align: right;" for="status">Status</label>
+                        <div class="col-sm-8">
+                            <select id="status_option" name="status" class="form-control">
+                                <option th:value="0" th:text="Pending"></option>
+                                <option th:value="1" th:text="Active"></option>
+                                <option th:value="2" th:text="Inactive"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form><br><br><br>
+
+            <table id="example" class="table table-striped table-bordered">
+                <thead>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Approved By</th>
+                    <th>Approval Time</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr th:each="blogger:${bloggerList}"> 
+                        <td><span th:text="${blogger.getUser_id().getFull_name()}"> Name </span></td>
+                        <td>
+                            <span th:if="${blogger.getStatus()} == 0">
+                                <span> Not Approved </span>
+                            </span>
+                            <span th:if="${blogger.getStatus()} == 1">
+                                <span> Active </span>
+                            </span>
+                            <span th:if="${blogger.getStatus()} == 2">
+                                <span> Inavtive </span>
+                            </span>
+                        </td>
+                        <td><span th:if="${blogger.getApproved_by()} != null"><span th:text="${blogger.getApproved_by().getUsername()}"> Approved By </span></span></td>
+                        <td>
+                            <span th:if="${blogger.getApproved_by()} != null">
+                                <span th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}" th:text="${sdf.format(blogger.getApprove_time())}"> Approval Time </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span th:if="${blogger.getStatus()} == 0">
+                                <a th:href="@{/admin/changeStatus/{bid}(bid=${blogger.getId()})}"> Approve </a>
+                            </span>
+                            <span th:if="${blogger.getStatus()} == 1">
+                                <a th:href="@{/admin/changeStatus/{bid}(bid=${blogger.getId()})}"> Inactive </a>
+                            </span>
+                            <span th:if="${blogger.getStatus()} == 2">
+                                <a th:href="@{/admin/changeStatus/{bid}(bid=${blogger.getId()})}"> Active </a>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>	
+	</div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:inline="javascript">
+        $('#status_option').on('change', function() {
+            $('#form1').submit()
+        });  
+        
+        $(document).ready(function(){
+            var status1 = [[${status}]];
+            $('#status_option').val(status1);
+        });
+    
+
+    </script>
+</th:block>
+</body>
+
+</html>

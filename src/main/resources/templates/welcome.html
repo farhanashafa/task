@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Welcome</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		.box {
+			padding-top: 50px;
+		}
+		
+	</style>
+</head>
+<body>
+<header class="main-header">
+	<div th:replace="/fragments/header"></div>
+</header>
+
+<div class="container-fluid">
+	<div class="col-md-12" >
+		<div class="box" style="text-align: center;padding-top: 100px;">
+            <h1 style="font-size:10vw;color:blueviolet">Welcome</h1>
+        </div>
+	</div>
+</div> 
+</body>
+
+</html>

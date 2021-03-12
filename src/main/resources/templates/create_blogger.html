@@ -1,0 +1,194 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Create New Admin</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		.box {
+			padding-top: 50px;
+		}
+		
+		.add-sapce {
+			padding-bottom: 15px !important;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container-fluid">
+	<div class="col-md-12" >
+		<div class="box">
+			<div class="box-header" style="text-align: center;">
+				<h3 class="box-title">Create Account</h3>
+			</div>
+			<div class="alert-danger" th:if="${incomplete}">
+				<label th:text="${incomplete}" style="text-align:center"></label>
+			</div>
+			<form data-toggle="validator" th:action="@{/blogger/addaccount}" th:object="${user_new}" method="post" id="blogger_form">
+				<div class="box-body" style="background-color:aliceblue;height:auto;">
+					
+					<div class="row col-md-12 text-center add-sapce" style="padding-top: 10px;">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" style="text-align: right;" for="full_name">Name</label>
+							<div class="col-sm-6">
+								<input id="full_name" name="full_name" th:field="*{full_name}" type="text" class="form-control" style="width:100% important!"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="row col-md-12 text-center add-sapce">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" style="text-align: right;" for="email">* Email</label>
+							<div class="col-sm-6">
+								<input id="email" th:field="*{email}" type="email" class="form-control" onkeyup="validateEmail()" style="width:100% important!"  th:required="required" />
+                                <span id='sp_email' style="font:12px; color:red;"></span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row col-md-12 text-center add-sapce">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" style="text-align: right;" for="username">* Username</label>
+							<div class="col-sm-6">
+								<input id="username" th:field="*{username}" type="text" class="form-control" onkeyup="duplicateheck()" style="width:100% important!" data-placeholder="" th:required="required" />
+								<span id="sp_uname"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row col-md-12 text-center add-sapce">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" style="text-align: right;" for="">* Password</label>
+							<div class="col-sm-6">
+								<input id="pass" th:field="*{password}" type="password" class="form-control" style="width:100% important!" data-placeholder="" th:required="required" />
+								<span id='sp_pass' style="font:12px; color:red;"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row col-md-12 text-center add-sapce">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" style="text-align: right;" for="cpass">* Confirm Password</label>
+							<div class="col-sm-6">
+								<input id="cpass" type="password" class="form-control" onkeyup="matchPassword()" style="width:100% important!" data-placeholder="" th:required="required" />
+								<span id='sp_cpass'></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="footer text-center" style="color:lightgray">
+						<button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
+					</div>
+				</div>	
+				
+			</form>
+					
+		</div>	
+
+			
+	</div>
+
+</div> 
+
+<th:block layout:fragment="scripts">
+    <script th:inline="javascript">
+	function validateEmail() {
+        var email = $('#email').val();
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //return re.test(String(email).toLowerCase());
+        if (re.test(String(email).toLowerCase())==false) {
+            $('#sp_email').html("Invalid Email ID")
+            return false;
+        } else {
+            $('#sp_email').html("");
+            return true;
+        }
+    }
+	function matchPassword () {
+		var pass = $('#pass').val();
+		var cpass = $('#cpass').val();
+        if (pass.length<4) {
+            $('#sp_pass').html("The length must be between 4 and 50");
+			$('#sp_pass').show();
+            return false;
+        }
+		if (cpass===pass) {
+			$('#sp_cpass').html("<i class=\"fa fa-check-square-o\" aria-hidden=\"true\"></i>");
+			$('#sp_cpass').css("color", "green");
+			return true;
+		} 
+		else {
+			$('#sp_cpass').html("<i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i>");
+			$('#sp_cpass').css("color", "red");
+			return false;
+		}
+	}
+
+	$('#pass').keyup(function() {
+		if (this.value.length<4 || this.value.length>50) {
+			$('#sp_pass').html("The length must be between 4 and 50");
+			$('#sp_pass').show();
+		} else {
+			$('#sp_pass').html("");
+			$('#sp_pass').hide();
+		}
+	});
+
+
+	function duplicateheck () {
+		var uname = $('#username').val();
+		//console.log(uname);
+		var url = "/rest/duplicatechk";
+		$.ajax({
+			type     : "GET",
+			url      : url,
+			data     : {'uname':uname},
+			//dataType : 'json',
+			contentType: "application/json; charset=utf-8",
+			success  : function (data) {
+				//console.log(data);
+				if (data.includes("YES")) {
+					$('#sp_uname').html("Duplicate Username");
+					$('#sp_uname').css("color", "red");
+					$("#submitBtn").prop('disabled', true);
+				}
+				else if (data.includes("NO")) {
+					$('#sp_uname').html("");
+					$("#submitBtn").prop('disabled', false);
+				}
+			},
+            error: function (e) {
+            	console.log(e);
+            }
+		});
+	}
+
+
+
+	$("#submitBtn").click(function(event) {
+        if (!validateEmail()) {
+			return false;
+		}
+        else if ($('#username').val()<1) {       
+            $('#sp_uname').html("This is required field.");
+            $('#sp_uname').css("color", "red");
+        }
+		else if (!matchPassword()) {
+			return false;
+		}
+        else {
+            $("#submitBtn").prop('disabled', true);
+            $("#blogger_form").submit();
+        }
+	});
+	
+          
+    </script>
+</th:block>
+</body>
+
+</html>
